@@ -1,7 +1,7 @@
 const crypto=require('crypto')
 const { createRazorpayInstance } = require('../config/config');
 const razorpayinstance = createRazorpayInstance();
-
+const User=require('../model/student')
 exports.order = async (req, res) => {
   const { amount } = req.body;
 
@@ -31,9 +31,9 @@ exports.order = async (req, res) => {
 
 
 exports.verifypayment=async (req,res)=>{
-    const{order_id,payment_id,signature}=req.body;
+    const{order_id,payment_id,signature, Email}=req.body;
 
-    if (!order_id || !payment_id || !signature) {
+    if (!order_id || !payment_id || !signature || !Email) {
         return res.status(400).json({ error: "Missing required fields" });
       }
       
@@ -43,9 +43,29 @@ exports.verifypayment=async (req,res)=>{
     hmac.update(order_id+"|"+payment_id);
     const genratedsign=hmac.digest("hex");
     if(genratedsign===signature){
-        return res.status(200).json({success:"verified payment"})
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { Email  },
+          { $set: { payment: true } },
+          { new: true }
+        );
+  
+        if (!updatedUser) {
+          return res.status(404).json({ success: false, message: "User not found" });
+        }
+  
+        return res.status(200).json({
+          success: true,
+          message: "Payment verified and user updated",
+          user: updatedUser,
+        });
+      } catch (error) {
+        console.error("Error updating user payment status:", error);
+        return res.status(500).json({ success: false, message: "Server Error" });
+      }
+    } 
+    else {
+      return res.status(400).json({ success: false, message: "Payment verification failed" });
     }
-    else{
-        return res.status(400).json({failure:"payment failed"})
-    }
+
 }

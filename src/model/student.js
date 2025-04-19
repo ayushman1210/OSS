@@ -16,15 +16,15 @@ const studentSchema= new mongoose.Schema({
         type:String
     },
     Year:{
-        type:Number
+        type:String
     },
     contact:{
         type:Number
     },
     Email:{
         type:String,
-        match:[/^[a-zA-Z0-9._%+-]+@akgec\.ac\.in$/,"please provide a valid email"],
-        unique:true
+        unique:true,
+        sparse:true
     },
     // paymentId: {
     //     type: String,
