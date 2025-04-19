@@ -3,7 +3,8 @@ const mongoose=require('mongoose')
 
 
 const register=async(req,res)=>{
-try{const data = req.body;
+try{
+    const data = req.body;
 const user = new student(data)
 console.log(data);
 await user.save(data);
