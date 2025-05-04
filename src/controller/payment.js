@@ -2,7 +2,7 @@ const crypto=require('crypto')
 const { createRazorpayInstance } = require('../config/config');
 const razorpayinstance = createRazorpayInstance();
 const User=require('../model/student')
-
+const email=require('../utility/mailer')
 exports.order = async (req, res) => {
   const { amount } = req.body;
 
@@ -70,6 +70,11 @@ exports.verifypayment = async (req, res) => {
     }
 
     await user.save();
+
+    const message = `Hi ${formData.Name} ,\n\nYour payment was successful with payment id ${payment_id} \n\n. Thank you for registering!!  `;
+    await email(contactData.Email, 'Payment Confirmation', message);
+
+
     console.log("✅ User after save:", user);
 
     return res.status(200).json({

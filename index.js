@@ -6,6 +6,7 @@ const app=express();
 const recaptcha=require('./src/routes/recaptcha')
 const register=require('./src/routes/student')
 const rateLimit=require('express-rate-limit')
+const cron=require('node-cron')
 require('dotenv').config()
 port=process.env.PORT
 
@@ -16,7 +17,7 @@ app.use(cors({
     methods:["GET","POST"],
     crendentials:true
 }))
-app.use(cors());
+// app.use(cors());
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minutes
     max: 100, // limit each IP to 100 requests per windowMs
@@ -32,8 +33,12 @@ app.use('/api/v1',recaptcha)
 app.get('/',(req,res)=>{
     res.send("welcome")
 })
+const schedule= cron.schedule('*/10 * * * *', () => {
+    console.log("server running")
+});
 app.listen(port,async()=>{
     console.log(`${port} is working `)
     await connectdb(process.env.MONGO_URI);
+    await schedule;
     console.log("connect db ")
 })

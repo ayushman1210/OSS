@@ -17,7 +17,6 @@ const verify = async (req, res) => {
 
         const data = await response.json();
         console.log(data); 
-
         if (!data.success) {
             return res.status(400).json({ success: false, message: "Invalid reCAPTCHA" });
         }
