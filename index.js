@@ -13,7 +13,7 @@ port=process.env.PORT
 app.use(express.json())
 
 app.use(cors({
-    origin:'https://registerpage-phi.vercel.app',
+    origin:'https://www.ossrndc.in/',
     methods:["GET","POST"],
     crendentials:true
 }))
