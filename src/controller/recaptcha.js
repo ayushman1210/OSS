@@ -26,7 +26,9 @@ const verify = async (req, res) => {
         if (!data.success) {
             return res.status(400).json({ success: false, message: "Invalid reCAPTCHA" });
         }
-
+ else{
+  res.status(400).json({success:true, message: "verified"})
+ }
         // Find or create user
         let existingUser = await User.findOne({ Email: contactData.Email });
 
