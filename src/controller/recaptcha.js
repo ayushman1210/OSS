@@ -1,9 +1,7 @@
 const User = require('../model/student');
 
-
 const verify = async (req, res) => {
-    const { Token } = req.body;
-    const {contactData,formData}=req.body;
+    const { Token, contactData, formData } = req.body;
 
     if (!Token) {
         return res.status(400).json({ success: false, message: "Missing reCAPTCHA token" });
@@ -26,9 +24,9 @@ const verify = async (req, res) => {
         if (!data.success) {
             return res.status(400).json({ success: false, message: "Invalid reCAPTCHA" });
         }
- else{
-  res.status(400).json({success:true, message: "verified"})
- }
+
+        console.log("✅ reCAPTCHA verified successfully.");
+
         // Find or create user
         let existingUser = await User.findOne({ Email: contactData.Email });
 
@@ -43,14 +41,11 @@ const verify = async (req, res) => {
             Object.assign(existingUser, formData, contactData);
         }
 
-        // Save user
         await existingUser.save();
 
-        // Send confirmation email
         const message = `Hi ${formData.Name},\n\nYour registration was successful.\n\nThank you for signing up!`;
         await email(contactData.Email, 'Registration Confirmation', message);
 
-        // Send response
         return res.status(200).json({
             success: true,
             message: "✅ reCAPTCHA verified and user saved",
