@@ -88,7 +88,7 @@ const verify = async (req, res) => {
       Thank you for registering — we’re truly excited to see you at the event!
     </p>
     <p>
-      If you have any questions before the event, feel free to contact Us !!.
+      If you have any questions before the event, feel free to reply to this email.
     </p>
     <div class="footer">
       — Team OSS
