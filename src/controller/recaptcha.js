@@ -103,8 +103,8 @@ const verify = async (req, res) => {
 <body>
     <div class="container">
         <h1>Hey ${formData.Name}!</h1>
-        <p class="event-details"> You're all signed up! 🎉</p>
-        <p class="event-details">We’re super excited that you’ll be joining us</p>
+        <p class="event-details">"You're all set! You’ve successfully registered for the event."</p>
+        <p class="event-details">"Thank you so much for registering! We’re genuinely excited to have you for the Workshop, and we can’t wait to see you at the event. It’s going to be an amazing experience!"</p>
         
         <div class="event-details">
             <p><span class="highlight">📍 Where:</span> CSIT Auditorium</p>
