@@ -12,11 +12,11 @@ port=process.env.PORT
 
 app.use(express.json())
 
-app.use(cors({
-    origin:'https://www.ossrndc.in',
-    methods:["GET","POST"],
-    crendentials:true
-}))
+// app.use(cors({
+//     origin:'https://www.ossrndc.in',
+//     methods:["GET","POST"],
+//     crendentials:true
+// }))
 app.use(cors());
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minutes
@@ -27,7 +27,7 @@ const limiter = rateLimit({
 
   app.use(limiter);
 app.use('/api/v1',register)
-app.use('/api/v1',router)
+// app.use('/api/v1',router)
 app.use('/api/v1',recaptcha)
 
 app.get('/',(req,res)=>{
