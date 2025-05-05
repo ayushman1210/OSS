@@ -1,8 +1,8 @@
-const User = require('../model/student'); // Capitalize model name to follow convention
+const user=require('../model/student')
 
 const verify = async (req, res) => {
-    const { Token, formData, contactData } = req.body;
-
+    const { Token } = req.body;
+    const {formData, contactData}=req.body;
     if (!Token) {
         return res.status(400).json({ success: false, message: "Missing reCAPTCHA token" });
     }
@@ -19,36 +19,52 @@ const verify = async (req, res) => {
         });
 
         const data = await response.json();
-        console.log(data);
+        console.log(data); 
         if (!data.success) {
             return res.status(400).json({ success: false, message: "Invalid reCAPTCHA" });
         }
 
-        // Assuming you want to create a new user every time (you can add logic to check for existing users)
-        const newUser = new User({
+        res.status(200).json({ success: true, message: "Verified successfully" });
+    } catch (error) {
+        console.error("error in verification", error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+
+      try {
+    
+        if (!user) {
+          console.log("🆕 User not found. Creating new user.");
+          user = new user({
             ...formData,
             ...contactData,
-            // payment info can go here if needed
-        });
-
-        await newUser.save();
-
-        const message = `Hi ${formData.Name},\n\nYour payment was successful.\n\nThank you for registering!`;
+            // payment: true,
+            // order_id,
+            //  payment_id,
+            //  signature
+          });
+        }
+        else {
+          console.log("✅ User found. Updating user.");
+          Object.assign({user, ...formData, ...contactData});
+        }
+    
+        await user.save();
+    
+        const message = `Hi ${formData.Name} ,\n\nYour payment was successful with payment id ${payment_id} \n\n. Thank you for registering!!  `;
         await email(contactData.Email, 'Payment Confirmation', message);
-
-        console.log("✅ User after save:", newUser);
-
+    
+    
+        console.log("✅ User after save:", user);
+    
         return res.status(200).json({
-            success: true,
-            message: "✅ Payment verified and user saved",
-            user: newUser,
+          success: true,
+          message: "✅ Payment verified and user saved",
+          user,
         });
-
-    } catch (error) {
-        console.error("❌ Error during verification or saving:", error);
+      } catch (error) {
+        console.error("❌ Error saving user:", error);
         return res.status(500).json({ success: false, message: "Server Error" });
-    }
+      }
 };
 
-
-module.exports=verify;
+module.exports = verify;
