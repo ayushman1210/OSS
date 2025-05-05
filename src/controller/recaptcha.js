@@ -37,13 +37,66 @@ const verify = async (req, res) => {
                 ...contactData,
             });
         } else {
-            console.log("✅ User found. Updating user.");
-            Object.assign(existingUser, formData, contactData);
+       res.status(400).json({
+        success:false,
+        message:" email duplicate"
+       })
         }
 
         await existingUser.save();
 
-        const message = `Hi ${formData.Name},\n\nYour registration was successful.\n\nThank you \n\n excited to see you in the event !!`;
+        const message = `<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      background-color: #ffffff;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2e86de;
+    }
+    p {
+      color: #333333;
+      line-height: 1.6;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Hi ${formData.Name},</h2>
+    <p>
+      Your registration was <strong>successful</strong>! 🎉
+    </p>
+    <p>
+      Thank you for registering — we’re truly excited to see you at the event!
+    </p>
+    <p>
+      If you have any questions before the event, feel free to contact Us !!.
+    </p>
+    <div class="footer">
+      — Team OSS
+    </div>
+  </div>
+</body>
+</html>
+`;
         await email(contactData.Email, 'Registration Confirmation', message);
 
         return res.status(200).json({
