@@ -44,6 +44,7 @@ const verify = async (req, res) => {
         }
 
         await existingUser.save();
+        
         const message = `<!DOCTYPE html>
         <html>
         <head>
