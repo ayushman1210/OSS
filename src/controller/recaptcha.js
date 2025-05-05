@@ -30,20 +30,23 @@ const verify = async (req, res) => {
         // Find or create user
         let existingUser = await User.findOne({ Email: contactData.Email });
 
-        if (!existingUser) {
-            console.log("🆕 User not found. Creating new user.");
-            existingUser = new User({
-                ...formData,
-                ...contactData,
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: "Email already registered"
             });
-        } else {
-       res.status(400).json({
-        success:false,
-        message:" email duplicate"
-       })
         }
-
+        
+        // Continue if user is new
+        console.log("🆕 User not found. Creating new user.");
+        existingUser = new User({
+            ...formData,
+            ...contactData,
+        });
+        
         await existingUser.save();
+        
+        // Send the email...
 
         const message = `<!DOCTYPE html>
 <html lang="en">
