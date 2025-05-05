@@ -2,7 +2,8 @@ const User = require('../model/student');
 
 
 const verify = async (req, res) => {
-    const { Token, formData, contactData } = req.body;
+    const { Token } = req.body;
+    const {contactData,formData}=req.body;
 
     if (!Token) {
         return res.status(400).json({ success: false, message: "Missing reCAPTCHA token" });
