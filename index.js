@@ -13,7 +13,7 @@ port=process.env.PORT
 app.use(express.json())
 
 app.use(cors({
-    origin:'https://www.ossrndc.in',
+    origin:'http://localhost:5173',
     methods:["GET","POST"],
     crendentials:true
 }))
