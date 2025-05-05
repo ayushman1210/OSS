@@ -51,9 +51,9 @@ const verify = async (req, res) => {
         const message = `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Details</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Congrats !! </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,8 +65,8 @@ const verify = async (req, res) => {
         .container {
             background-color: #fff;
             border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             margin: 0 auto;
         }
@@ -83,7 +83,7 @@ const verify = async (req, res) => {
         }
         .highlight {
             font-weight: bold;
-            color: #333;
+            color: #000;
         }
         .contact {
             font-size: 14px;
@@ -93,7 +93,7 @@ const verify = async (req, res) => {
             text-decoration: none;
         }
         .footer {
-            margin-top: 20px;
+            margin-top: 25px;
             text-align: center;
             font-size: 14px;
             color: #777;
@@ -102,32 +102,33 @@ const verify = async (req, res) => {
 </head>
 <body>
     <div class="container">
-        <h1>Hello ${formData.Name},</h1>
-        <p class="event-details">You have successfully registered for the event!</p>
-        <p class="event-details">Thank you for registering— we’re thrilled to have you join us and can’t wait to see you at the event!</p>
+        <h1>Hey ${formData.Name}!</h1>
+        <p class="event-details"> You're all signed up! 🎉</p>
+        <p class="event-details">We’re super excited that you’ll be joining us</p>
         
         <div class="event-details">
-            <p><span class="highlight">📍 Venue:</span> CSIT Auditorium</p>
-            <p><span class="highlight">🗓️ Dates:</span> 8th & 9th May, 2025</p>
+            <p><span class="highlight">📍 Where:</span> CSIT Auditorium</p>
+            <p><span class="highlight">🗓️ When:</span> 8th & 9th May, 2025</p>
             <p><span class="highlight">🕓 Time:</span> 4:00 PM – 7:00 PM</p>
-            <p><span class="highlight">🎟️ Entry Fee:</span> Absolutely FREE!!</p>
+            <p><span class="highlight">🎟️ Cost:</span> Totally FREE!</p>
         </div>
         
-        <p class="event-details">Follow us on Instagram for updates: <a href="https://www.instagram.com/team__oss/?hl=en" class="social-link">Instagram</a></p>
+        <p class="event-details">Want updates and behind-the-scenes peeks? Follow us on <a href="https://www.instagram.com/team__oss/?hl=en" class="social-link">Instagram</a>!</p>
         
         <div class="contact">
-            <p><span class="highlight">📞 For Queries, Contact:</span></p>
-            <p>Bhavesh Gautam — (8529715481)</p>
-            <p>Anshul Kotwal — (9651411146)</p>
+            <p><span class="highlight">📞 Got questions? We’re here to help:</span></p>
+            <p>Bhavesh Gautam — 8529715481</p>
+            <p>Anshul Kotwal — 9651411146</p>
         </div>
         
         <div class="footer">
-            <p>Warm Regards,</p>
+            <p>See you soon,</p>
             <p>✨ Team OSS</p>
         </div>
     </div>
 </body>
-</html>`;
+</html>
+`;
         
        
         await email(contactData.Email, 'Registration Confirmation', message);
