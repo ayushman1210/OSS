@@ -14,7 +14,6 @@ const sendMail = async (to, subject, text) => {
             from: `"TEAM OSS" <${process.env.EMAIL_USER}>`,
             to,
             subject,
-            text,
             html
         });
 
