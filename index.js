@@ -17,7 +17,7 @@ app.use(cors({
     methods:["GET","POST"],
     crendentials:true
 }))
-// app.use(cors());
+app.use(cors());
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minutes
     max: 100, // limit each IP to 100 requests per windowMs
@@ -27,7 +27,7 @@ const limiter = rateLimit({
 
   app.use(limiter);
 app.use('/api/v1',register)
-// app.use('/api/v1',router)
+app.use('/api/v1',router)
 app.use('/api/v1',recaptcha)
 
 app.get('/',(req,res)=>{

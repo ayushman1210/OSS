@@ -1,5 +1,5 @@
 const User = require('../model/student');
-
+const email = require('../utility/mailer');
 const verify = async (req, res) => {
     const { Token, contactData, formData } = req.body;
 
@@ -43,8 +43,8 @@ const verify = async (req, res) => {
 
         await existingUser.save();
 
-        // const message = `Hi ${formData.Name},\n\nYour registration was successful.\n\nThank you for signing up!`;
-        // await email(contactData.Email, 'Registration Confirmation', message);
+        const message = `Hi ${formData.Name},\n\nYour registration was successful.\n\nThank you \n\n excited to see you in the event !!`;
+        await email(contactData.Email, 'Registration Confirmation', message);
 
         return res.status(200).json({
             success: true,
