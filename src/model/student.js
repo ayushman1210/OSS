@@ -26,6 +26,9 @@ const studentSchema = new mongoose.Schema({
     unique: true,
     sparse: true,
   },
+  Residence:{
+    type:String
+  },
   payment: {
     type: Boolean,
     default: true,
