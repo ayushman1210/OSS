@@ -1,3 +1,9 @@
+
+const dns = require("dns");
+
+// Force Node to use Google DNS
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 const express=require('express');
 const connectdb = require('./src/db/db');
 const cors=require('cors')
@@ -9,6 +15,9 @@ const rateLimit=require('express-rate-limit')
 const cron=require('node-cron')
 require('dotenv').config()
 port=process.env.PORT
+
+
+
 
 app.use(express.json())
 
