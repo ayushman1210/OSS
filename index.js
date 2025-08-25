@@ -49,6 +49,19 @@ app.get('/',(req,res)=>{
 const schedule= cron.schedule('*/10 * * * *', () => {
     console.log("server running")
 });
+
+const axios = require("axios");
+
+setInterval(async () => {
+  try {
+    const res = await axios.get("https://oss-ea26.onrender.com/ping");
+    console.log("Pinged:", res.data);
+  } catch (err) {
+    console.log("Ping error:", err.message);
+  }
+}, 1* 60 * 1000); // every 10 minutes
+
+
 app.listen(port,async()=>{
     console.log(`${port} is working `)
     await connectdb(process.env.MONGO_URI);
