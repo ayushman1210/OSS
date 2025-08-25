@@ -1,5 +1,4 @@
 const student=require('../model/student')
-const mongoose=require('mongoose')
 
 
 const register=async(req,res)=>{

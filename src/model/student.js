@@ -15,7 +15,7 @@ const studentSchema = new mongoose.Schema({
   Branch: {
     type: String,
   },
-  Year: {
+  Domain: {
     type: String,
   },
   contact: {

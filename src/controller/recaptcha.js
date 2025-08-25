@@ -1,8 +1,9 @@
 const User = require('../model/student');
 const email = require('../utility/mailer');
+
 const verify = async (req, res) => {
     const { Token, contactData, formData } = req.body;
-
+    console.log(req.body,contactData,formData);
     if (!Token) {
         return res.status(400).json({ success: false, message: "Missing reCAPTCHA token" });
     }
@@ -102,13 +103,13 @@ const verify = async (req, res) => {
 </head>
 <body>
     <div class="container">
-        <h1>Hey ${formData.Name}!</h1>
+        <h1>Hey ${formData.Name}! \n your registration number is ${Math.floor(Math.random()*10000)}</h1>
         <p class="event-details">"You're all set! You’ve successfully registered for the event."</p>
-        <p class="event-details">"Thank you so much for registering! We’re genuinely excited to have you for the Workshop, and we can’t wait to see you at the event. It’s going to be an amazing experience!"</p>
+        <p class="event-details">"Thank you so much for registering! We’re genuinely excited to have you for the Recruitment Drive, and we can’t wait to see you at the event. It’s going to be an amazing experience!"</p>
         
         <div class="event-details">
             <p><span class="highlight">📍 Where:</span> CSIT Auditorium</p>
-            <p><span class="highlight">🗓️ When:</span> 8th & 9th May, 2025</p>
+            <p><span class="highlight">🗓️ When:</span> 1 september 2025</p>
             <p><span class="highlight">🕓 Time:</span> 4:00 PM – 7:00 PM</p>
             <p><span class="highlight">🎟️ Cost:</span> Totally FREE!</p>
         </div>
@@ -117,8 +118,8 @@ const verify = async (req, res) => {
         
         <div class="contact">
             <p><span class="highlight">📞 Got questions? We’re here to help:</span></p>
-            <p>Bhavesh Gautam — 8529715481</p>
-            <p>Anshul Kotwal — 9651411146</p>
+            <p>Ayushman 8318055601</p>
+            <p></p>
         </div>
         
         <div class="footer">

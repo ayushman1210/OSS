@@ -3,6 +3,8 @@ const { createRazorpayInstance } = require('../config/config');
 const razorpayinstance = createRazorpayInstance();
 const User=require('../model/student')
 const email=require('../utility/mailer')
+
+
 exports.order = async (req, res) => {
   const { amount } = req.body;
 
