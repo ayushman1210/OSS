@@ -14,7 +14,7 @@ app.use(express.json())
 
 app.use(cors({
     // origin:'https://www.ossrndc.in',
-    origin:'https://registerpage-1a46.vercel.app/',
+    origin:'https://registerpage-1a46.vercel.app',
     methods:["GET","POST"],
     crendentials:true
 }))
