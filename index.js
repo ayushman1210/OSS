@@ -19,7 +19,7 @@ app.use(cors({
     crendentials:true
 }))
 
-// app.use(cors());
+app.use(cors());
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minutes
     max: 100, // limit each IP to 100 requests per windowMs
