@@ -18,12 +18,13 @@ port=process.env.PORT
 
 
 
-
 app.use(express.json())
+
+app.get("/ping", (req, res) => res.send("pong"));
 
 app.use(cors({
     // origin:'https://www.ossrndc.in',
-    origin:'https://registerpage-1a46.vercel.app',
+    origin:['https://registerpage-1a46.vercel.app','https://www.ossrndc.in'],
     methods:["GET","POST"],
     credentials:true,
     allowedHeaders: ["Content-Type", "Authorization"]
