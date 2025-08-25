@@ -16,7 +16,8 @@ app.use(cors({
     // origin:'https://www.ossrndc.in',
     origin:'https://registerpage-1a46.vercel.app',
     methods:["GET","POST"],
-    credentials:true
+    credentials:true,
+    allowedHeaders: ["Content-Type", "Authorization"]
 }))
 
 // app.use(cors());
