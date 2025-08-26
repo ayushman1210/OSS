@@ -108,6 +108,7 @@ const verify = async (req, res) => {
         <p class="event-details">"Thank you so much for registering! We’re genuinely excited to have you for the Recruitment Drive, and we can’t wait to see you at the event. It’s going to be an amazing experience!"</p>
         
         <div class="event-details">
+            <p><span class="highlight">📍 Account:</span> kindly register  on unstop  </p>
             <p><span class="highlight">📍 Where:</span> CSIT Auditorium</p>
             <p><span class="highlight">🗓️ When:</span> 1 september 2025</p>
             <p><span class="highlight">🕓 Time:</span> 4:00 PM – 7:00 PM</p>
