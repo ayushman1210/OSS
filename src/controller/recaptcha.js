@@ -105,12 +105,11 @@ const verify = async (req, res) => {
     <div class="container">
         <h1>Hey ${formData.Name}! \n your registration number is ${Math.floor(Math.random()*10000)}</h1>
         <p class="event-details">"You're all set! You’ve successfully registered for the event."</p>
-        <p class="event-details">"Thank you so much for registering! We’re genuinely excited to have you for the Recruitment Drive, and we can’t wait to see you at the event. It’s going to be an amazing experience!"</p>
+        <p class="event-details">"Thank you so much for registering! We’re genuinely excited to have you for the ACM Event and we can’t wait to see you at the event. It’s going to be an amazing experience!"</p>
         
         <div class="event-details">
-            <p><span class="highlight">📍 Account:</span> kindly register  on unstop  </p>
             <p><span class="highlight">📍 Where:</span> CSIT Auditorium</p>
-            <p><span class="highlight">🗓️ When:</span> 1 september 2025</p>
+            <p><span class="highlight">🗓️ When:</span> 2 november 2025</p>
             <p><span class="highlight">🕓 Time:</span> 4:00 PM – 7:00 PM</p>
             <p><span class="highlight">🎟️ Cost:</span> Totally FREE!</p>
         </div>
