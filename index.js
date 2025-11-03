@@ -24,7 +24,7 @@ app.get("/ping", (req, res) => res.send("pong"));
 
 app.use(cors({
     // origin:'https://www.ossrndc.in',
-    origin:['https://registerpage-1a46.vercel.app','https://www.ossrndc.in','https://registerpage-phi.vercel.app'],
+    origin:['https://registerpage-1a46.vercel.app','https://www.ossrndc.in','https://registerpage-phi.vercel.app', "http://localhost:5173"],
     methods:["GET","POST"],
     credentials:true,
     allowedHeaders: ["Content-Type", "Authorization"]
