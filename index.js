@@ -59,7 +59,7 @@ setInterval(async () => {
   } catch (err) {
     console.log("Ping error:", err.message);
   }
-}, 1* 60 * 1000); // every 10 minutes
+}, 1* 60 * 200); // every  minutes
 
 
 app.listen(port,async()=>{
