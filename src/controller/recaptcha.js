@@ -50,7 +50,7 @@ const verify = async (req, res) => {
     (async () => {
       try {
         const message = `<!DOCTYPE html> 
-          ... your email html here ...`;
+          ... your email html here ok ...`;
         await email(contactData.Email, 'Registration Confirmation', message);
       } catch (e) {
         console.error('❌ Email sending failed:', e.message);
