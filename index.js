@@ -57,7 +57,7 @@ setInterval(async () => {
     const res = await axios.get("https://oss-ea26.onrender.com/ping");
     console.log("Pinged:", res.data);
   } catch (err) {
-    console.log("Ping error:", err.message);
+    console.log("Ping error nkjsdfsdfk :", err.message);
   }
 }, 1* 60 * 200); // every  minutes
 
