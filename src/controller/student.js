@@ -1,22 +1,51 @@
-const student=require('../model/student')
+// const Student = require('../model/student');
+
+// const register = async (req, res) => {
+//   try {
+//     const student = await Student.create(req.body);
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Student registered successfully",
+//       data: student
+//     });
+
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message
+//     });
+//   }
+// };
+
+// module.exports = register;
 
 
-const register=async(req,res)=>{
-try{
-    const data = req.body;
-const user = new student(data)
-console.log(data);
-await user.save();
-// const data=req.body;
-// const user=await student.create(data);
-console.log(user);
+const Student = require('../model/student');
 
-res.status(200).send(user)
-}
-catch(e){
-    console.log(e)
-}
-}
+const register = async (req, res) => {
+  try {
 
+    const transactionId = "TXN" + Date.now() + Math.floor(Math.random() * 1000);
 
-module.exports=register;
+    const student = await Student.create({
+      ...req.body,
+      transactionId,
+      payment: false
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Student registered successfully",
+      data: student
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+module.exports = register;

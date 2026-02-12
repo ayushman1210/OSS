@@ -17,6 +17,7 @@ require('dotenv').config()
 port=process.env.PORT
 
 
+app.use(express.static('public'));
 
 app.use(express.json())
 
@@ -38,7 +39,7 @@ const limiter = rateLimit({
     headers: true,
   });
 
-  app.use(limiter);
+app.use(limiter);
 app.use('/api/v1',register)
 app.use('/api/v1',router)
 app.use('/api/v1',recaptcha)
@@ -64,7 +65,7 @@ setInterval(async () => {
 
 app.listen(port,async()=>{
     console.log(`${port} is working `)
-    await connectdb(process.env.MONGO_URI);
+    await connectdb(process.env.MONGO_URL);
     await schedule;
     console.log("connect db ")
 })
