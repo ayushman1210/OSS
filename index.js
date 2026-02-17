@@ -17,6 +17,7 @@ require('dotenv').config()
 port=process.env.PORT
 
 
+app.use(express.static('public'));
 
 app.use(express.json())
 
@@ -38,7 +39,7 @@ const limiter = rateLimit({
     headers: true,
   });
 
-  app.use(limiter);
+app.use(limiter);
 app.use('/api/v1',register)
 // app.use('/api/v1',router)
 app.use('/api/v1',recaptcha)
@@ -57,7 +58,7 @@ setInterval(async () => {
     const res = await axios.get("https://oss-ea26.onrender.com/ping");
     console.log("Pinged:", res.data);
   } catch (err) {
-    console.log("Ping error  :", err.message);
+    console.log("Ping error :", err.message);
   }
 }, 1* 60 * 200); // every  minutes
 

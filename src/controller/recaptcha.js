@@ -7,8 +7,8 @@ const verify = async (req, res) => {
     if (!Token) {
         return res.status(400).json({ success: false, message: "Missing reCAPTCHA token" });
     }
+     const secretKey = process.env.RECAPTCHA_SECRET;
 
-    const secretKey = '6LccNwAsAAAAALMHqA1gPWqIAwdxr-_TAFi56dpR';
     try {
         // Verify reCAPTCHA token
         const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {

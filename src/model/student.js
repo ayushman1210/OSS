@@ -1,50 +1,27 @@
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
-  Name: {
-    type: String,
-    maxlength: 20,
-  },
-  StudentNO: {
-    type: String,
-    maxlength: 10,
-  },
-  Gender: {
-    type: String,
-  },
-  Branch: {
-    type: String,
-  },
-  Domain: {
-    type: String,
-  },
-  contact: {
-    type: Number,
-  },
+  Name: String,
+  StudentNO: String,
+  Gender: String,
+  Branch: String,
+  Domain: String,
+  contact: Number,
   Email: {
     type: String,
-    unique: true,
-    sparse: true,
+    unique: true
   },
-  Residence:{
-    type:String
-  },
+  Residence: String,
+
   payment: {
     type: Boolean,
-    default: true,
+    default: true
   },
-  payment_id: {
-    type: String,
-  },
-  order_id: {
-    type: String,
-  },
-  signature: {
-    type: String,
-  },
+
+  transactionId: {
+    type: String
+  }
+
 }, { timestamps: true });
 
-const Student = mongoose.model("student", studentSchema);
-module.exports = Student;
-
-
+module.exports = mongoose.model("student", studentSchema);
