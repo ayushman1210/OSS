@@ -30,8 +30,6 @@ const register = async (req, res) => {
 
     const student = await Student.create({
       ...req.body,
-      transactionId,
-      payment: false
     });
 
     res.status(201).json({
