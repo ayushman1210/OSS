@@ -7,7 +7,7 @@ dns.setServers(["8.8.8.8", "8.8.4.4"]);
 const express=require('express');
 const connectdb = require('./src/db/db');
 const cors=require('cors')
-const router=require('./src/routes/payment')
+// const router=require('./src/routes/payment')
 const app=express();
 const recaptcha=require('./src/routes/recaptcha')
 const register=require('./src/routes/student')
@@ -41,7 +41,7 @@ const limiter = rateLimit({
 
 app.use(limiter);
 app.use('/api/v1',register)
-app.use('/api/v1',router)
+// app.use('/api/v1',router)
 app.use('/api/v1',recaptcha)
 
 app.get('/',(req,res)=>{
@@ -58,14 +58,14 @@ setInterval(async () => {
     const res = await axios.get("https://oss-ea26.onrender.com/ping");
     console.log("Pinged:", res.data);
   } catch (err) {
-    console.log("Ping error nkjsdfsdfk :", err.message);
+    console.log("Ping error :", err.message);
   }
 }, 1* 60 * 200); // every  minutes
 
 
 app.listen(port,async()=>{
     console.log(`${port} is working `)
-    await connectdb(process.env.MONGO_URL);
+    await connectdb(process.env.MONGO_URI);
     await schedule;
     console.log("connect db ")
 })
