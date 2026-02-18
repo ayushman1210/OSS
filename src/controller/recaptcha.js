@@ -134,7 +134,7 @@ const verify = async (req, res) => {
 `;
         
        
-        await sendMail(contactData.Email, 'Registration Confirmation', message);
+        // await sendMail(contactData.Email, 'Registration Confirmation', message);
 
 
 
