@@ -20,7 +20,8 @@ const studentSchema = new mongoose.Schema({
 
   transactionId: {
     type: String,
-    unique: true
+    unique: true,
+    required: true
   }
 
 }, { timestamps: true });
