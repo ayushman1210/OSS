@@ -31,8 +31,14 @@ const verify = async (req, res) => {
 
         // Find or create user
         let existingUser = await User.findOne({ Email: contactData.Email });
+        let existingTransaction = await User.findOne({ transactionId: contactData.transactionId });
 
-
+        if (existingTransaction) {
+            return res.status(400).json({
+                success: false,
+                message: "Transaction ID already exists. Please use a unique one."
+            });
+        }
         if (existingUser) {
             return res.status(400).json({
                 success: false,
