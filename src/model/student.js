@@ -6,7 +6,10 @@ const studentSchema = new mongoose.Schema({
   Gender: String,
   Branch: String,
   Domain: String,
-  contact: Number,
+  contact: {
+    type: Number,
+    unique: true
+  },
   Email: {
     type: String,
     unique: true

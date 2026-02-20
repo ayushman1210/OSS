@@ -27,14 +27,26 @@ const Student = require('../model/student');
 
 const register = async (req, res) => {
   try {
-    const { transactionId } = req.body;
+    const { transactionId, contact } = req.body;
 
-    const existingStudent = await Student.findOne({ transactionId });
-    if (existingStudent) {
-      return res.status(400).json({
-        success: false,
-        message: "Transaction ID already exists. Please use a unique one."
-      });
+    if (transactionId) {
+      const existingStudent = await Student.findOne({ transactionId });
+      if (existingStudent) {
+        return res.status(400).json({
+          success: false,
+          message: "Transaction ID already exists. Please use a unique one."
+        });
+      }
+    }
+
+    if (contact) {
+      const existingContact = await Student.findOne({ contact });
+      if (existingContact) {
+        return res.status(400).json({
+          success: false,
+          message: "Contact already exists. Please provide a different contact number."
+        });
+      }
     }
 
 
@@ -50,9 +62,10 @@ const register = async (req, res) => {
 
   } catch (error) {
     if (error.code === 11000) {
+      const field = error.keyValue ? Object.keys(error.keyValue)[0] : 'field';
       return res.status(400).json({
         success: false,
-        message: "Duplicate transaction ID, try again"
+        message: `Duplicate ${field} value, try again with a unique ${field}`
       });
     }
 
