@@ -31,13 +31,27 @@ const verify = async (req, res) => {
 
         // Find or create user
         let existingUser = await User.findOne({ Email: contactData.Email });
+        let exitingtrans=await User.findOne({transactionId:contactData.transactionId});
+        let exitingtranss = await User.findOne({contact:contactData.contact});
 
+        if(exitingtranss){
+            return res.status(400).json({
+                success: false,
+                message: "Phone no duplicate"
+            });
+        }
+            if(exitingtrans){
+                 return res.status(400).json({
+                success: false,
+                message: "transaction is duplicate "
+            });
+            }
 
         if (existingUser) {
             return res.status(400).json({
                 success: false,
-                message: "Email already registered"
-            });
+                message: "transaction is duplicate "
+            });   
         }
         
         // Continue if user is new

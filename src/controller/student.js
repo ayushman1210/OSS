@@ -28,12 +28,13 @@ const Student = require('../model/student');
 const register = async (req, res) => {
   try {
     const { transactionId } = req.body;
+    const {contact} = req.body;
 
-    const existingStudent = await Student.findOne({ transactionId });
+    const existingStudent = await Student.findOne({ contact });
     if (existingStudent) {
       return res.status(400).json({
         success: false,
-        message: "Transaction ID already exists. Please use a unique one."
+        message: "Phone no already exist"
       });
     }
 
