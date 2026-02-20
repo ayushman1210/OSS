@@ -32,7 +32,15 @@ const verify = async (req, res) => {
         // Find or create user
         let existingUser = await User.findOne({ Email: contactData.Email });
         let existingTransaction = await User.findOne({ transactionId: contactData.transactionId });
+        let existingPhone = await User.findOne({ Phone: contactData.contact });
 
+        if (existingPhone) {
+            return res.status(400).json({
+                success: false,
+                message: "Phone number already registered"
+            });
+        }
+        
         if (existingTransaction) {
             return res.status(400).json({
                 success: false,
