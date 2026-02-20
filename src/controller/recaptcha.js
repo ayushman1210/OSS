@@ -1,5 +1,5 @@
 const User = require('../model/student');
-const email = require('../utility/mailer');
+const sendMail = require('../utility/mailer');
 
 const verify = async (req, res) => {
     const { Token, contactData, formData } = req.body;
@@ -148,7 +148,7 @@ const verify = async (req, res) => {
 `;
         
        
-        // await email(contactData.Email, 'Registration Confirmation', message);
+        // await sendMail(contactData.Email, 'Registration Confirmation', message);
 
 
 

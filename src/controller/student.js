@@ -41,8 +41,6 @@ const register = async (req, res) => {
 
     const student = await Student.create({
       ...req.body,
-      transactionId,
-      payment: false
     });
 
     res.status(201).json({
@@ -53,9 +51,10 @@ const register = async (req, res) => {
 
   } catch (error) {
     if (error.code === 11000) {
+      const field = error.keyValue ? Object.keys(error.keyValue)[0] : 'field';
       return res.status(400).json({
         success: false,
-        message: "Duplicate transaction ID, try again"
+        message: `Duplicate ${field} value, try again with a unique ${field}`
       });
     }
 

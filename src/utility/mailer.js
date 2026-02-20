@@ -6,7 +6,7 @@
 //             service: 'gmail',
 //             auth: {
 //                 user: process.env.EMAIL_USER, // your Gmail
-//                 pass: process.env.EMAIL_PASS ||   // your App Password
+//                 pass: process.env.EMAIL_PASS   // your App Password
 //             }
 //         });
 
