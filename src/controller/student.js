@@ -1,77 +1,75 @@
-// const Student = require('../model/student');
-
-// const register = async (req, res) => {
-//   try {
-//     const student = await Student.create(req.body);
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Student registered successfully",
-//       data: student
-//     });
-
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: error.message
-//     });
-//   }
-// };
-
-// module.exports = register;
-
-
 const Student = require('../model/student');
 
-// const generateTransactionId = () => "TXN" + Date.now() + Math.floor(Math.random() * 1000);
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const register = async (req, res) => {
   try {
-    const { transactionId, contact } = req.body;
+    const { Token, transactionId, contact, email } = req.body;
 
-    if (transactionId) {
-      const existingStudent = await Student.findOne({ transactionId });
-      if (existingStudent) {
-        return res.status(400).json({
-          success: false,
-          message: "Transaction ID already exists. Please use a unique one."
-        });
-      }
-    }
-
-    if (contact) {
-      const existingContact = await Student.findOne({ contact });
-      if (existingContact) {
-        return res.status(400).json({
-          success: false,
-          message: "Contact already exists. Please provide a different contact number."
-        });
-      }
-    }
-
-
-    const student = await Student.create({
-      ...req.body,
-    });
-
-    res.status(201).json({
-      success: true,
-      message: "Student registered successfully",
-      data: student
-    });
-
-  } catch (error) {
-    if (error.code === 11000) {
-      const field = error.keyValue ? Object.keys(error.keyValue)[0] : 'field';
+    // ===============================
+    // 🔒 1. Validate Required Fields
+    // ===============================
+    if (!Token || !transactionId || !contact) {
+      await delay(1500);
       return res.status(400).json({
         success: false,
-        message: `Duplicate ${field} value, try again with a unique ${field}`
+        message: "Missing required fields"
       });
     }
 
-    res.status(500).json({
+    // ===============================
+    // 🔐 2. Verify reCAPTCHA (Backend)
+    // ===============================
+    const response = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `secret=${process.env.RECAPTCHA_SECRET}&response=${Token}`
+      }
+    );
+
+    const data = await response.json();
+
+    // If using reCAPTCHA v3 → check score
+    if (!data.success || (data.score && data.score < 0.7)) {
+      await delay(2000);
+      return res.status(400).json({
+        success: false,
+        message: "Bot detected"
+      });
+    }
+
+    // ===============================
+    // 💾 3. Save Student (Mongo handles duplicates)
+    // ===============================
+    await Student.create({
+      ...req.body
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Student registered successfully"
+    });
+
+  } catch (error) {
+
+    // Duplicate key error (Mongo unique index)
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyValue)[0];
+      return res.status(400).json({
+        success: false,
+        message: `Duplicate ${field} value`
+      });
+    }
+
+    console.error("Register error:", error);
+
+    return res.status(500).json({
       success: false,
-      message: error.message
+      message: "Server error"
     });
   }
 };
