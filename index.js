@@ -5,6 +5,7 @@ const express = require("express");
 const connectdb = require("./src/db/db");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const slowDown = require("express-slow-down");
 const cron = require("node-cron");
 require("dotenv").config();
 
@@ -19,14 +20,9 @@ app.set("trust proxy", 1);
 // ==================================================
 // 🔐 SECURITY MIDDLEWARE
 // ==================================================
+app.use(express.json({ limit: "10kb" })); // Limit JSON size
+app.use(express.static("public"));        // Serve static files safely
 
-// Limit JSON body size
-app.use(express.json({ limit: "10kb" }));
-
-// Serve static files
-app.use(express.static("public"));
-
-// Strict CORS configuration
 app.use(
   cors({
     origin: [
@@ -45,24 +41,29 @@ app.use(
 // 🛡️ GLOBAL API RATE LIMIT (General Protection)
 // ==================================================
 
+// Slow down if excessive requests
+const speedLimiter = slowDown({
+  windowMs: 60 * 1000,  // 1 minute
+  delayAfter: 300,      // start delaying after 300 requests
+  delayMs: 50,          // add 50ms per extra request
+});
+
 const globalLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 300, // Allow 300 API requests per minute per IP
+  windowMs: 60 * 1000,  // 1 minute
+  max: 500,             // allow 500 API requests per IP per minute
   standardHeaders: true,
   legacyHeaders: false,
   message: "Too many requests. Please slow down.",
 });
 
-// Apply ONLY to API routes
-app.use("/api", globalLimiter);
+app.use("/api", speedLimiter, globalLimiter);
 
 // ==================================================
-// 🔐 REGISTER RATE LIMIT (100 per minute)
+// 🔐 REGISTER RATE LIMIT (100 per minute per IP)
 // ==================================================
-
 const registerLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 100, // ✅ 100 registrations per minute per IP
+  windowMs: 60 * 1000,  // 1 minute
+  max: 100,             // 100 registrations per IP per minute
   standardHeaders: true,
   legacyHeaders: false,
   message: "Too many registration attempts. Please try again in a minute.",
@@ -71,21 +72,17 @@ const registerLimiter = rateLimit({
 // ==================================================
 // 📌 ROUTES
 // ==================================================
+app.get("/ping", (req, res) => res.status(200).send("pong")); // Keep-alive route
 
-app.get("/ping", (req, res) => res.send("pong"));
+app.get("/", (req, res) => res.send("welcome"));
 
-app.get("/", (req, res) => {
-  res.send("welcome");
-});
-
-// Apply strict limiter ONLY to registration routes
+// Apply strict limiter only to registration routes
 const register = require("./src/routes/student");
 app.use("/api/v1", registerLimiter, register);
 
 // ==================================================
 // ⏰ SERVER HEALTH LOG (Optional)
 // ==================================================
-
 cron.schedule("*/10 * * * *", () => {
   console.log("Server alive:", new Date().toISOString());
 });
@@ -93,9 +90,19 @@ cron.schedule("*/10 * * * *", () => {
 // ==================================================
 // 🚀 START SERVER
 // ==================================================
-
 app.listen(port, async () => {
   console.log(`Server running on port ${port}`);
   await connectdb(process.env.MONGO_URI);
   console.log("Database connected");
+});
+
+// ==================================================
+// ⚠️ ERROR HANDLING (Prevents Crashes)
+// ==================================================
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled Rejection:", err);
 });
