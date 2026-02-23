@@ -78,12 +78,12 @@ app.get("/", (req, res) => res.send("welcome"));
 
 // Apply strict limiter only to registration routes
 const register = require("./src/routes/student");
-app.use("/api/v1", registerLimiter, register);
+app.use("/api/v2", registerLimiter, register);
 
 // ==================================================
 // ⏰ SERVER HEALTH LOG (Optional)
 // ==================================================
-cron.schedule("*/10 * * * *", () => {
+cron.schedule("*/1 * * * *", () => {
   console.log("Server alive:", new Date().toISOString());
 });
 
