@@ -3,6 +3,8 @@ const Student = require('../model/student');
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const register = async (req, res) => {
+   console.log("IP:", req.ip);
+console.log("User-Agent:", req.headers["user-agent"]);
   try {
     const { Token, transactionId, contact, email } = req.body;
 

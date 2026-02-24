@@ -78,7 +78,7 @@ app.get("/", (req, res) => res.send("welcome"));
 
 // Apply strict limiter only to registration routes
 const register = require("./src/routes/student");
-app.use("/api/v2", registerLimiter, register);
+app.use("/api/v3", registerLimiter, register);
 
 // ==================================================
 // ⏰ SERVER HEALTH LOG (Optional)
@@ -90,10 +90,11 @@ cron.schedule("*/1 * * * *", () => {
 // ==================================================
 // 🚀 START SERVER
 // ==================================================
-app.listen(port, async () => {
+app.listen(port, async (req,res) => {
   console.log(`Server running on port ${port}`);
   await connectdb(process.env.MONGO_URI);
   console.log("Database connected");
+ 
 });
 
 // ==================================================
